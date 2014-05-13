@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+<!DOCTYPE html>
+
+    {% block extra_css %}
+    	<link href="{% static 'css/login.css' %}" rel="stylesheet">
+    {% endblock extra_css %}
+
+
+    {% block page %}
+    <form class="form-signin" role="form">
+    	{% csrf_token %}
+    	<h2 class="form-signin-heading">Inicie sesión</h2>
+    	<input type="text" class="form-control" placeholder="Usuario" required autofocus
+    		oninvalid="this.setCustomValidity('Por favor ingrese usuario.')">
+    	<br>
+    	<input type="password" class="form-control" placeholder="Contraseña" required
+    		oninvalid="this.setCustomValidity('Por favor ingrese su contraseña.')">
+    	<br>
+    	<button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+    </form>
+    {% endblock page %}
