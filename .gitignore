@@ -28,7 +28,7 @@ pip-delete-this-directory.txt
 
 # Unit test / coverage reports
 htmlcov/
-.tox/
+config/default.db.tox/
 .coverage
 .cache
 nosetests.xml
@@ -48,6 +48,8 @@ coverage.xml
 # Django stuff:
 *.log
 *.pot
+config/default.db
+
 
 # Sphinx documentation
 docs/_build/

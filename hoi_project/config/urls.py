@@ -10,7 +10,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', 'django.contrib.auth.views.login', name='login'),   
     url(r'^admin/', include(admin.site.urls)),
-    url(r'accounts/logout/$', 'django.contrib.auth.views.login', name='logout'),
+    url(r'accounts/logout/$', 'apps.users.views.user_logout', name='logout'),
 )
 
 # Uncomment the next line to serve media files in dev.
