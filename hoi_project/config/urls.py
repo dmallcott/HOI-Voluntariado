@@ -8,9 +8,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'django.contrib.auth.views.login', name='login'),   
+	url(r'home/$', TemplateView.as_view(template_name='home.html'), name='home'),
+    url(r'^$', 'django.contrib.auth.views.login', {'redirect_field_name':'home'}, name='login'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'accounts/logout/$', 'apps.users.views.user_logout', name='logout'),
+    url(r'accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page':'login'}, name='logout'),
 )
 
 # Uncomment the next line to serve media files in dev.
