@@ -195,6 +195,7 @@ DJANGO_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
+    'apps.voluntarios',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -251,5 +252,4 @@ INSTALLED_APPS += (
 SOUTH_TESTS_MIGRATE = False
 ########## END SOUTH CONFIGURATION
 
-
-INSTALLED_APPS += ('apps.voluntarios',)
+LOGIN_REDIRECT_URL = 'home'
