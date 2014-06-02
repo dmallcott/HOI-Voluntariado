@@ -38,7 +38,7 @@ class Voluntario(models.Model):
 	grado_instruccion = models.CharField('Grado de instrucción', max_length=1, choices=OPCIONES_INSTRUCCION)
 	ocupacion = models.CharField('Ocupación', max_length=30, blank=True)
 	correo_electronico = models.EmailField('Correo electrónico')
-	
+
 
 
 

@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^$', 'django.contrib.auth.views.login', name='login'),   
     url(r'^admin/', include(admin.site.urls)),
     url(r'accounts/logout/$', 'apps.users.views.user_logout', name='logout'),
+    # url(r'^voluntarios/', include('voluntarios.urls')),
 )
 
 # Uncomment the next line to serve media files in dev.
