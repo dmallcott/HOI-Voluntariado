@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Agregar Voluntario
+{% endblock %}
+
+{% block body %}
+    <form method="post" action="">{% csrf_token %}
+        <table>
+        {{ formset }}
+        </table>
+        <input class="btn" type="submit" value="Agregar" />
+    </form>
+{% endblock %}

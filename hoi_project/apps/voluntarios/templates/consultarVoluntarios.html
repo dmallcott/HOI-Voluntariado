@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Voluntarios
+{% endblock %}
+
+{% block body %}
+<table style="width: 100%">
+    <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+    </tr>
+    {% for item in voluntarios %}
+    <tr> 
+        <td>{{ item.primer_nombre }}</td>
+        <td>{{ item.apellido }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+
+<!-- 
+<body>
+      {% block body %}
+
+        {% block content %}
+
+        {% endblock %}
+
+      {% endblock %}
+
+</body> -->
