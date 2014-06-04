@@ -184,6 +184,7 @@ DJANGO_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
+    'grappelli',
 
     # Useful template tags:
     # 'django.contrib.humanize',
