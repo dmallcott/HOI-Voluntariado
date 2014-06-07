@@ -3,8 +3,8 @@ from django.db import models
 
 class Voluntario(models.Model):
 
-    # def __unicode__(self):
-    #     return unicode(self.primer_nombre) + u' ' + unicode(self.apellido)	
+	def __unicode__(self):
+		return unicode(self.primer_nombre) + ' ' + unicode(self.apellido)
 
 	OPCIONES_GENERO = (
 		('M', 'Masculino'),
