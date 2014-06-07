@@ -61,7 +61,7 @@ DATABASES = {
 TIME_ZONE = 'America/Los_Angeles'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ve'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
@@ -252,4 +252,4 @@ INSTALLED_APPS += (
 SOUTH_TESTS_MIGRATE = False
 ########## END SOUTH CONFIGURATION
 
-LOGIN_REDIRECT_URL = 'home'
+#GRAPPELLI_ADMIN_TITLE = 'Hospital Ortopedico Infantil'
