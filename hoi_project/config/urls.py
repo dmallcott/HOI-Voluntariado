@@ -8,9 +8,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', RedirectView.as_view(url='/admin/')),
-    url(r'^admin/', include(admin.site.urls)),
-)
+                       url(r'^$', RedirectView.as_view(url='/admin/')),
+                       url(r'^admin/', include(admin.site.urls)),
+                       url(r'^grappelli/', include('grappelli.urls')),
+                       )
 
 # Uncomment the next line to serve media files in dev.
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
