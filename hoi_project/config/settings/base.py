@@ -58,10 +58,14 @@ DATABASES = {
 
 ########## GENERAL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#time-zone
-TIME_ZONE = 'America/Los_Angeles'
+TIME_ZONE = 'America/Caracas'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
+<<<<<<< HEAD
 LANGUAGE_CODE = 'es-ve'
+=======
+LANGUAGE_CODE = 'es-es'
+>>>>>>> origin/crud_volunteers
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
@@ -196,6 +200,9 @@ DJANGO_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
+    'apps.voluntarios',
+    'apps.proyectos',
+    'apps.servicios',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -252,4 +259,8 @@ INSTALLED_APPS += (
 SOUTH_TESTS_MIGRATE = False
 ########## END SOUTH CONFIGURATION
 
-#GRAPPELLI_ADMIN_TITLE = 'Hospital Ortopedico Infantil'
+
+GRAPPELLI_ADMIN_TITLE = 'Hospital Ortopedico Infantil'
+
+LOGIN_REDIRECT_URL = 'home'
+
