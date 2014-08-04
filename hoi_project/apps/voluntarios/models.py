@@ -4,6 +4,9 @@ from django.db import models
 
 class Voluntario(models.Model):
 
+    def __unicode__(self):
+        return unicode(self.primer_nombre) + ' ' + unicode(self.apellido)
+
     OPCIONES_GENERO = (
         ('M', 'Masculino'),
         ('F', 'Femenino'),
@@ -26,12 +29,11 @@ class Voluntario(models.Model):
     apellido = models.CharField('Apellido', max_length=30, blank=True)
     lugar_nacimiento = models.CharField(
         'Lugar de nacimiento', max_length=30, blank=True)
-    fecha_nacimiento = models.DateField(
-        'Fecha de nacimiento', auto_now_add=True, blank=True)
-    edad = models.PositiveIntegerField('Edad')
+    fecha_nacimiento = models.DateField('Fecha de nacimiento', blank=True)
+    edad = models.TextField('Edad')
     genero = models.CharField('Genero', max_length=1, choices=OPCIONES_GENERO)
     CI = models.CharField(
-        'Cédula de identidad', max_length=10, primary_key=True)
+        'Cédula de identidad', max_length=10, primary_key=True, blank=True)
     estado_civil = models.CharField(
         'Estado civil', max_length=1, choices=OPCIONES_ESTADO_CIVIL)
     direccion = models.CharField(
@@ -44,6 +46,3 @@ class Voluntario(models.Model):
         'Grado de instrucción', max_length=1, choices=OPCIONES_INSTRUCCION)
     ocupacion = models.CharField('Ocupación', max_length=30, blank=True)
     correo_electronico = models.EmailField('Correo electrónico')
-
-    def __unicode__(self):
-        return unicode(self.primer_nombre) + ' ' + unicode(self.apellido)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Common settings and globals."""
 
 
@@ -88,15 +89,15 @@ MEDIA_URL = '/media/'
 
 # STATIC FILE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = normpath(join(SITE_ROOT, 'assets'))
+STATIC_ROOT = normpath(join(SITE_ROOT, 'statis'))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
-STATIC_URL = '/static/'
+STATIC_URL = '/assets/'
 
 # See:
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = (
-    normpath(join(SITE_ROOT, 'static')),
+    normpath(join(SITE_ROOT, 'assets')),
 )
 
 # See:
@@ -262,6 +263,6 @@ SOUTH_TESTS_MIGRATE = False
 # END SOUTH CONFIGURATION
 
 
-GRAPPELLI_ADMIN_TITLE = 'Hospital Ortopedico Infantil'
+GRAPPELLI_ADMIN_TITLE = 'Hospital Ortopédico Infantil'
 
 LOGIN_REDIRECT_URL = 'home'
