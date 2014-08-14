@@ -30,10 +30,11 @@ class Voluntario(models.Model):
     lugar_nacimiento = models.CharField(
         'Lugar de nacimiento', max_length=30, blank=True)
     fecha_nacimiento = models.DateField('Fecha de nacimiento', blank=True)
-    edad = models.TextField('Edad')
     genero = models.CharField('Genero', max_length=1, choices=OPCIONES_GENERO)
     CI = models.CharField(
         'Cédula de identidad', max_length=10, primary_key=True, blank=True)
+    institucion = models.CharField('Institución', max_length=30, blank=True)
+    ocupacion = models.CharField('Ocupación', max_length=30, blank=True)
     estado_civil = models.CharField(
         'Estado civil', max_length=1, choices=OPCIONES_ESTADO_CIVIL)
     direccion = models.CharField(
@@ -44,5 +45,4 @@ class Voluntario(models.Model):
         'Teléfono celular', max_length=20)
     grado_instruccion = models.CharField(
         'Grado de instrucción', max_length=1, choices=OPCIONES_INSTRUCCION)
-    ocupacion = models.CharField('Ocupación', max_length=30, blank=True)
     correo_electronico = models.EmailField('Correo electrónico')

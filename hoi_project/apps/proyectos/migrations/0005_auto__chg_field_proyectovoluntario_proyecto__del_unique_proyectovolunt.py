@@ -8,32 +8,19 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Proyecto'
-        db.create_table(u'proyectos_proyecto', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('titulo', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('institucion', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('especialidad', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('dependencia', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('estatus', self.gf('django.db.models.fields.CharField')(max_length=1)),
-        ))
-        db.send_create_signal(u'proyectos', ['Proyecto'])
+        # Removing unique constraint on 'ProyectoVoluntario', fields ['proyecto']
+        db.delete_unique(u'proyectos_proyectovoluntario', ['proyecto_id'])
 
-        # Adding model 'Proyecto_Voluntario'
-        db.create_table(u'proyectos_proyecto_voluntario', (
-            ('proyecto', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['proyectos.Proyecto'], unique=True, primary_key=True)),
-            ('voluntario', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['voluntarios.Voluntario'])),
-            ('horas', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
-        ))
-        db.send_create_signal(u'proyectos', ['Proyecto_Voluntario'])
 
+        # Changing field 'ProyectoVoluntario.proyecto'
+        db.alter_column(u'proyectos_proyectovoluntario', 'proyecto_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['proyectos.Proyecto']))
 
     def backwards(self, orm):
-        # Deleting model 'Proyecto'
-        db.delete_table(u'proyectos_proyecto')
 
-        # Deleting model 'Proyecto_Voluntario'
-        db.delete_table(u'proyectos_proyecto_voluntario')
+        # Changing field 'ProyectoVoluntario.proyecto'
+        db.alter_column(u'proyectos_proyectovoluntario', 'proyecto_id', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['proyectos.Proyecto'], unique=True))
+        # Adding unique constraint on 'ProyectoVoluntario', fields ['proyecto']
+        db.create_unique(u'proyectos_proyectovoluntario', ['proyecto_id'])
 
 
     models = {
@@ -46,10 +33,11 @@ class Migration(SchemaMigration):
             'institucion': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'titulo': ('django.db.models.fields.CharField', [], {'max_length': '30'})
         },
-        u'proyectos.proyecto_voluntario': {
-            'Meta': {'object_name': 'Proyecto_Voluntario'},
+        u'proyectos.proyectovoluntario': {
+            'Meta': {'object_name': 'ProyectoVoluntario'},
             'horas': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
-            'proyecto': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['proyectos.Proyecto']", 'unique': 'True', 'primary_key': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'proyecto': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['proyectos.Proyecto']"}),
             'voluntario': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['voluntarios.Voluntario']"})
         },
         u'voluntarios.voluntario': {
@@ -58,9 +46,8 @@ class Migration(SchemaMigration):
             'apellido': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'correo_electronico': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
             'direccion': ('django.db.models.fields.CharField', [], {'max_length': '120', 'blank': 'True'}),
-            'edad': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'estado_civil': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
-            'fecha_nacimiento': ('django.db.models.fields.DateField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'fecha_nacimiento': ('django.db.models.fields.DateField', [], {'blank': 'True'}),
             'genero': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             'grado_instruccion': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             'lugar_nacimiento': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),

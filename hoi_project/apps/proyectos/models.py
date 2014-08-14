@@ -18,13 +18,17 @@ class Proyecto(models.Model):
         'Estatus', max_length=1, choices=OPCIONES_ESTATUS)
 
     def __unicode__(self):
-        return unicode(self.titulo)
+        return unicode(self.titulo) + " " + unicode(self.institucion)
 
 
-class Proyecto_Voluntario(models.Model):
-    proyecto = models.OneToOneField(Proyecto, primary_key=True)
+class ProyectoVoluntario(models.Model):
+    proyecto = models.ForeignKey(Proyecto)
     voluntario = models.ForeignKey(Voluntario)
     horas = models.PositiveIntegerField(default=0)
 
     def __unicode__(self):
         return unicode(self.proyecto.titulo)
+
+    class Meta:
+        verbose_name = "Proyecto/Voluntario"
+        verbose_name_plural = "Proyectos/Voluntarios"
