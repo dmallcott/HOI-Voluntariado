@@ -185,7 +185,7 @@ DJANGO_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+    #'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
@@ -202,9 +202,9 @@ DJANGO_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'apps.voluntarios',
-    'apps.proyectos',
-    'apps.servicios',
+    'apps.voluntariado',
+    'apps.registros',
+
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
