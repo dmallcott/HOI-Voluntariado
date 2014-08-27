@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 from django.utils.translation import ugettext_lazy as _
 from datetime import date
+from apps.voluntariado.views import write_pdf
 from apps.voluntariado.models import (
     Organizacion,
     Voluntario,
@@ -30,6 +31,12 @@ class InstitucionFilter(SimpleListFilter):
 
 class OrganizacionAdmin(admin.ModelAdmin):
     search_fields = ['nombre']
+    actions = ['get_report']
+
+    def get_report(self, request, queryset):
+        return write_pdf('pdf/pdf.html', {
+                         'pagesize': 'A4',
+                         'article': 'this is the article'})
 
 
 class VoluntarioAdmin(admin.ModelAdmin):

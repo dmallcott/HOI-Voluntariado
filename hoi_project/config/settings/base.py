@@ -190,6 +190,7 @@ DJANGO_APPS = (
     'django.contrib.staticfiles',
     'widget_tweaks',
     'grappelli',
+    'easy_pdf',
 
     # Useful template tags:
     # 'django.contrib.humanize',
