@@ -20,8 +20,8 @@ def write_pdf(template_src, context_dict):
     return http.HttpResponse('Gremlin\'s ate your pdf! % s' % cgi.escape(html))
 
 
-def article(request, id):
-
-    return write_pdf('dtd/pdf/template.html', {
+def article(request):
+    raise Exception(request)
+    return write_pdf('pdf/pdf.html', {
         'pagesize': 'A4',
         'article': 'this is the article'})

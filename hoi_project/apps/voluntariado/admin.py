@@ -10,6 +10,8 @@ from apps.voluntariado.models import (
     Proyecto,
     Servicio
 )
+from apps.voluntariado.forms import MonthlyForm, AnualForm
+from django.shortcuts import render
 
 # Filters
 
@@ -31,12 +33,72 @@ class InstitucionFilter(SimpleListFilter):
 
 class OrganizacionAdmin(admin.ModelAdmin):
     search_fields = ['nombre']
-    actions = ['get_report']
+    actions = ['generar_reporte_mes', 'generar_reporte_ano']
 
-    def get_report(self, request, queryset):
-        return write_pdf('pdf/pdf.html', {
-                         'pagesize': 'A4',
-                         'article': 'this is the article'})
+    def generar_reporte_mes(modeladmin, request, queryset):
+        form = None
+
+        if 'apply' in request.POST:
+
+            form = MonthlyForm(request.POST)
+            if form.is_valid():
+                lista_organizaciones = []
+                for organizacion in queryset:
+                    lista_organizaciones.append(
+                        (
+                            organizacion.nombre,
+                            organizacion.horas_mes(
+                                form.cleaned_data['mes'],
+                                form.cleaned_data['ano'])
+                        )
+                    )
+
+                return write_pdf('pdf/reporte_mensual.html', {
+                                 'pagesize': 'A4',
+                                 'lista_organizaciones': lista_organizaciones})
+
+        if not form:
+            form = MonthlyForm(
+                initial={'_selected_action':
+                         request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
+
+        return render(request, 'admin/organizacion_mes.html',
+                      {'items': queryset, 'form': form,
+                       'title': u'Reporte mensual - Organizacion'})
+
+    generar_reporte_mes.short_description = u"Generar reporte mensual"
+
+    def generar_reporte_ano(modeladmin, request, queryset):
+        form = None
+
+        if 'apply' in request.POST:
+
+            form = AnualForm(request.POST)
+            if form.is_valid():
+                lista_organizaciones = []
+                for organizacion in queryset:
+                    lista_organizaciones.append(
+                        (
+                            organizacion.nombre,
+                            organizacion.horas_ano(
+                                form.cleaned_data['ano'])
+                        )
+                    )
+
+                return write_pdf('pdf/reporte_anual.html', {
+                                 'pagesize': 'A4',
+                                 'lista_organizaciones': lista_organizaciones})
+
+        if not form:
+            form = AnualForm(
+                initial={'_selected_action':
+                         request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
+
+        return render(request, 'admin/organizacion_ano.html',
+                      {'items': queryset, 'form': form,
+                       'title': u'Reporte anual - Organizacion'})
+
+    generar_reporte_ano.short_description = u"Generar reporte anual"
 
 
 class VoluntarioAdmin(admin.ModelAdmin):

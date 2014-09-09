@@ -8,38 +8,19 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Proyectos'
-        db.create_table(u'registros_proyectos', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('proyecto', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['voluntariado.Proyecto'])),
-            ('voluntario', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['voluntariado.Voluntario'])),
-            ('horas', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
-            ('fecha', self.gf('django.db.models.fields.DateField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal(u'registros', ['Proyectos'])
 
-        # Adding model 'Servicios'
-        db.create_table(u'registros_servicios', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('servicio', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['voluntariado.Servicio'])),
-            ('voluntario', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['voluntariado.Voluntario'])),
-            ('horas', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
-        ))
-        db.send_create_signal(u'registros', ['Servicios'])
-
+        # Changing field 'Proyectos.fecha'
+        db.alter_column(u'registros_proyectos', 'fecha', self.gf('django.db.models.fields.DateField')())
 
     def backwards(self, orm):
-        # Deleting model 'Proyectos'
-        db.delete_table(u'registros_proyectos')
 
-        # Deleting model 'Servicios'
-        db.delete_table(u'registros_servicios')
-
+        # Changing field 'Proyectos.fecha'
+        db.alter_column(u'registros_proyectos', 'fecha', self.gf('django.db.models.fields.DateField')(auto_now=True))
 
     models = {
         u'registros.proyectos': {
             'Meta': {'object_name': 'Proyectos'},
-            'fecha': ('django.db.models.fields.DateField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'fecha': ('django.db.models.fields.DateField', [], {}),
             'horas': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'proyecto': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['voluntariado.Proyecto']"}),

@@ -27,11 +27,11 @@ class ProyectosAdmin(admin.ModelAdmin):
     search_fields = [
         'proyecto__titulo', 'proyecto__estatus', 'voluntario__primer_nombre',
         'voluntario__apellido',
-        'voluntario__CI', 'voluntario__institucion__nombre']
+        'voluntario__CI', 'voluntario__institucion__nombre', 'fecha']
     list_display = [
         'get_proyecto', 'get_proyecto_estatus', 'get_institucion',
-        'voluntario', 'get_CI', 'horas']
-    list_filter = ['voluntario', 'proyecto', InstitucionFilter]
+        'voluntario', 'get_CI', 'horas', 'fecha']
+    list_filter = ['voluntario', 'proyecto', InstitucionFilter, 'fecha']
 
     def get_proyecto(self, obj):
         return obj.proyecto.titulo
