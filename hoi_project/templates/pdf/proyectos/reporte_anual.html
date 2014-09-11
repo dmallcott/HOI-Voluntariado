@@ -1,0 +1,47 @@
+<html>
+<head>
+<style type="text/css">
+    @page {
+        size: ;
+        margin: 1cm;
+        @frame footer {
+                -pdf-frame-content: footerblock;
+                bottom: 1cm;
+                margin-left: 1cm;
+                margin-right: 1cm;
+                margin-top: 1cm;
+                height: 1cm;
+        }
+    }
+</style>
+</head>
+<body>
+<div>
+    {% for proyecto in lista_proyectos %}
+        <h2>{{ proyecto.0 }}</h2>
+        <h3>Registro mensual</h3>
+        {% for externo in proyecto.1.0 %}
+            {% if externo.1 != 0 %}
+                {% for entrada in externo.0 %}
+                    <p>
+                        {{ entrada.fecha }}
+                        ,
+                        {{ entrada.horas }}
+                        ,
+                        {{ entrada.voluntario.primer_nombre }} {{ entrada.voluntario.apellido }} 
+                        ,
+                        {{ entrada.voluntario.institucion.nombre }}
+                    </p>
+                {% endfor %}
+                <b>Total:</b> {{ externo.1 }}
+            {% endif %}
+        {% endfor %}
+        <br>
+        <b>Total anual:</b> {{ proyecto.1.1 }}    
+    {% endfor %}
+</div>
+<div id="footerblock">
+    <pdf:pagenumber>
+</div>
+</body>
+</html>

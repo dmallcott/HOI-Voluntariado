@@ -96,13 +96,36 @@ class Voluntario(models.Model):
     def __unicode__(self):
         return unicode(self.primer_nombre) + ' ' + unicode(self.apellido)
 
-    def horas_mes(self):
+    def horas_mes(self, mes, ano):
         """ Genera el reporte de horas mensuales """
-        return None
+        proyectos = Proyectos.objects.all().filter(
+            voluntario__CI=self.CI,
+            fecha__month=mes,
+            fecha__year=ano)
+        counter = 0
+        for p in proyectos:
+            counter += p.horas
+        return (proyectos, counter)
 
-    def horas_anuales(self):
+    def horas_ano(self, ano):
         """ Genera el reporte de horas anuales """
-        return None
+        proyectos = Proyectos.objects.all().filter(
+            voluntario__CI=self.CI,
+            fecha__year=ano)
+
+        horas_ano = 0
+        resultado = []
+        for mes in range(1, 13):
+            proyectos_mes = []
+            horas_mes = 0
+            for p in proyectos:
+                if p.fecha.month == mes:
+                    horas_ano += p.horas
+                    horas_mes += p.horas
+                    proyectos_mes.append(p)
+            resultado.append((proyectos_mes, horas_mes))
+
+        return (resultado, horas_ano)
 
 
 class Proyecto(models.Model):
@@ -121,13 +144,36 @@ class Proyecto(models.Model):
     def __unicode__(self):
         return unicode(self.titulo)
 
-    def horas_mes(self):
+    def horas_mes(self, mes, ano):
         """ Genera el reporte de horas mensuales """
-        return None
+        proyectos = Proyectos.objects.all().filter(
+            proyecto__pk=self.pk,
+            fecha__month=mes,
+            fecha__year=ano)
+        counter = 0
+        for p in proyectos:
+            counter += p.horas
+        return (proyectos, counter)
 
-    def horas_anuales(self):
+    def horas_ano(self, ano):
         """ Genera el reporte de horas anuales """
-        return None
+        proyectos = Proyectos.objects.all().filter(
+            proyecto__pk=self.pk,
+            fecha__year=ano)
+
+        horas_ano = 0
+        resultado = []
+        for mes in range(1, 13):
+            proyectos_mes = []
+            horas_mes = 0
+            for p in proyectos:
+                if p.fecha.month == mes:
+                    horas_ano += p.horas
+                    horas_mes += p.horas
+                    proyectos_mes.append(p)
+            resultado.append((proyectos_mes, horas_mes))
+
+        return (resultado, horas_ano)
 
 
 class Servicio(models.Model):

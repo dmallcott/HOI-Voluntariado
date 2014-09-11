@@ -53,7 +53,7 @@ class OrganizacionAdmin(admin.ModelAdmin):
                         )
                     )
 
-                return write_pdf('pdf/reporte_mensual.html', {
+                return write_pdf('pdf/organizaciones/reporte_mensual.html', {
                                  'pagesize': 'A4',
                                  'lista_organizaciones': lista_organizaciones})
 
@@ -85,7 +85,7 @@ class OrganizacionAdmin(admin.ModelAdmin):
                         )
                     )
 
-                return write_pdf('pdf/reporte_anual.html', {
+                return write_pdf('pdf/organizaciones/reporte_anual.html', {
                                  'pagesize': 'A4',
                                  'lista_organizaciones': lista_organizaciones})
 
@@ -109,6 +109,7 @@ class VoluntarioAdmin(admin.ModelAdmin):
     list_filter = ['primer_nombre', 'apellido', 'genero', 'lugar_nacimiento',
                    'estado_civil', 'ocupacion',
                    InstitucionFilter, 'grado_instruccion']
+    actions = ['generar_reporte_mes', 'generar_reporte_ano']
 
     def get_edad(self, obj):
         hoy = date.today()
@@ -118,6 +119,73 @@ class VoluntarioAdmin(admin.ModelAdmin):
     get_edad.short_description = 'Edad'
     get_edad.admin_order_field = '__fecha_nacimiento'
 
+    def generar_reporte_mes(modeladmin, request, queryset):
+        form = None
+
+        if 'apply' in request.POST:
+
+            form = MonthlyForm(request.POST)
+            if form.is_valid():
+                lista_voluntarios = []
+                for voluntario in queryset:
+                    lista_voluntarios.append(
+                        (
+                            voluntario.primer_nombre +
+                            " " + voluntario.apellido,
+                            voluntario.horas_mes(
+                                form.cleaned_data['mes'],
+                                form.cleaned_data['ano'])
+                        )
+                    )
+
+                return write_pdf('pdf/voluntarios/reporte_mensual.html', {
+                                 'pagesize': 'A4',
+                                 'lista_voluntarios': lista_voluntarios})
+
+        if not form:
+            form = MonthlyForm(
+                initial={'_selected_action':
+                         request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
+
+        return render(request, 'admin/organizacion_mes.html',
+                      {'items': queryset, 'form': form,
+                       'title': u'Reporte mensual - Voluntario'})
+
+    generar_reporte_mes.short_description = u"Generar reporte mensual"
+
+    def generar_reporte_ano(modeladmin, request, queryset):
+        form = None
+
+        if 'apply' in request.POST:
+
+            form = AnualForm(request.POST)
+            if form.is_valid():
+                lista_voluntarios = []
+                for voluntario in queryset:
+                    lista_voluntarios.append(
+                        (
+                            voluntario.primer_nombre +
+                            " " + voluntario.apellido,
+                            voluntario.horas_ano(
+                                form.cleaned_data['ano'])
+                        )
+                    )
+
+                return write_pdf('pdf/voluntarios/reporte_anual.html', {
+                                 'pagesize': 'A4',
+                                 'lista_voluntarios': lista_voluntarios})
+
+        if not form:
+            form = AnualForm(
+                initial={'_selected_action':
+                         request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
+
+        return render(request, 'admin/organizacion_ano.html',
+                      {'items': queryset, 'form': form,
+                       'title': u'Reporte anual - Voluntario'})
+
+    generar_reporte_ano.short_description = u"Generar reporte anual"
+
 
 class ProyectoAdmin(admin.ModelAdmin):
     search_fields = ['titulo',
@@ -125,6 +193,72 @@ class ProyectoAdmin(admin.ModelAdmin):
     list_display = ['titulo', 'especialidad', 'estatus']
     list_filter = ['titulo',
                    'especialidad', 'dependencia', 'estatus']
+    actions = ['generar_reporte_mes', 'generar_reporte_ano']
+
+    def generar_reporte_mes(modeladmin, request, queryset):
+        form = None
+
+        if 'apply' in request.POST:
+
+            form = MonthlyForm(request.POST)
+            if form.is_valid():
+                lista_proyectos = []
+                for proyecto in queryset:
+                    lista_proyectos.append(
+                        (
+                            proyecto.titulo,
+                            proyecto.horas_mes(
+                                form.cleaned_data['mes'],
+                                form.cleaned_data['ano'])
+                        )
+                    )
+
+                return write_pdf('pdf/proyectos/reporte_mensual.html', {
+                                 'pagesize': 'A4',
+                                 'lista_proyectos': lista_proyectos})
+
+        if not form:
+            form = MonthlyForm(
+                initial={'_selected_action':
+                         request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
+
+        return render(request, 'admin/organizacion_mes.html',
+                      {'items': queryset, 'form': form,
+                       'title': u'Reporte mensual - Proyecto'})
+
+    generar_reporte_mes.short_description = u"Generar reporte mensual"
+
+    def generar_reporte_ano(modeladmin, request, queryset):
+        form = None
+
+        if 'apply' in request.POST:
+
+            form = AnualForm(request.POST)
+            if form.is_valid():
+                lista_proyectos = []
+                for proyecto in queryset:
+                    lista_proyectos.append(
+                        (
+                            proyecto.titulo,
+                            proyecto.horas_ano(
+                                form.cleaned_data['ano'])
+                        )
+                    )
+
+                return write_pdf('pdf/proyectos/reporte_anual.html', {
+                                 'pagesize': 'A4',
+                                 'lista_proyectos': lista_proyectos})
+
+        if not form:
+            form = AnualForm(
+                initial={'_selected_action':
+                         request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
+
+        return render(request, 'admin/organizacion_ano.html',
+                      {'items': queryset, 'form': form,
+                       'title': u'Reporte anual - Proyecto'})
+
+    generar_reporte_ano.short_description = u"Generar reporte anual"
 
 # Registers
 admin.site.register(Organizacion, OrganizacionAdmin)
