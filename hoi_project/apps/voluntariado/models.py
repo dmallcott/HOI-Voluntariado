@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from apps.registros.models import Proyectos
+from apps.registros.models import Proyectos, Servicios
 
 
 class Organizacion(models.Model):
@@ -189,10 +189,33 @@ class Servicio(models.Model):
     def __unicode__(self):
         return unicode(self.servicio)
 
-    def horas_mes(self):
+    def horas_mes(self, mes, ano):
         """ Genera el reporte de horas mensuales """
-        return None
+        servicios = Servicios.objects.all().filter(
+            servicio__pk=self.pk,
+            fecha__month=mes,
+            fecha__year=ano)
+        counter = 0
+        for p in servicios:
+            counter += p.horas
+        return (servicios, counter)
 
-    def horas_anuales(self):
+    def horas_ano(self, ano):
         """ Genera el reporte de horas anuales """
-        return None
+        servicios = Servicios.objects.all().filter(
+            servicio__pk=self.pk,
+            fecha__year=ano)
+
+        horas_ano = 0
+        resultado = []
+        for mes in range(1, 13):
+            servicios_mes = []
+            horas_mes = 0
+            for p in servicios:
+                if p.fecha.month == mes:
+                    horas_ano += p.horas
+                    horas_mes += p.horas
+                    servicios_mes.append(p)
+            resultado.append((servicios_mes, horas_mes))
+
+        return (resultado, horas_ano)

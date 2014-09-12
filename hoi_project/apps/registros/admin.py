@@ -60,10 +60,12 @@ class ProyectosAdmin(admin.ModelAdmin):
 class ServiciosAdmin(admin.ModelAdmin):
     search_fields = ['servicio__servicio', 'voluntario__primer_nombre',
                      'voluntario__apellido',
-                     'voluntario__CI', 'voluntario__institucion__nombre']
+                     'voluntario__CI', 'voluntario__institucion__nombre',
+                     'fecha']
     list_display = [
-        'get_servicio', 'get_institucion', 'voluntario', 'get_CI', 'horas']
-    list_filter = ['voluntario', 'servicio', InstitucionFilter]
+        'get_servicio', 'get_institucion', 'voluntario', 'get_CI', 'horas',
+        'fecha']
+    list_filter = ['voluntario', 'servicio', InstitucionFilter, 'fecha']
 
     def get_servicio(self, obj):
         return obj.servicio.servicio

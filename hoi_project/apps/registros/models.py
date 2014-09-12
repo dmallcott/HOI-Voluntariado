@@ -20,6 +20,7 @@ class Servicios(models.Model):
     servicio = models.ForeignKey('voluntariado.Servicio')
     voluntario = models.ForeignKey('voluntariado.Voluntario')
     horas = models.PositiveIntegerField(default=0)
+    fecha = models.DateField(auto_now=False)
 
     class Meta:
         verbose_name = "Registro de servicio"
