@@ -4,6 +4,7 @@ from django.contrib.admin import SimpleListFilter
 from django.utils.translation import ugettext_lazy as _
 from apps.registros.models import Proyectos, Servicios
 from apps.voluntariado.models import Organizacion
+from apps.registros.actions import export_as_csv_action
 
 # Filters
 
@@ -32,6 +33,8 @@ class ProyectosAdmin(admin.ModelAdmin):
         'get_proyecto', 'get_proyecto_estatus', 'get_institucion',
         'voluntario', 'get_CI', 'horas', 'fecha']
     list_filter = ['voluntario', 'proyecto', InstitucionFilter, 'fecha']
+    actions = [export_as_csv_action("Exportar como CSV", 
+        fields=['proyecto', 'voluntario', 'horas', 'fecha' ])]
 
     def get_proyecto(self, obj):
         return obj.proyecto.titulo
@@ -66,6 +69,8 @@ class ServiciosAdmin(admin.ModelAdmin):
         'get_servicio', 'get_institucion', 'voluntario', 'get_CI', 'horas',
         'fecha']
     list_filter = ['voluntario', 'servicio', InstitucionFilter, 'fecha']
+    actions = [export_as_csv_action("Exportar como CSV", 
+        fields=['servicio', 'voluntario', 'horas', 'fecha' ])]
 
     def get_servicio(self, obj):
         return obj.servicio.servicio
