@@ -93,6 +93,9 @@ class Voluntario(models.Model):
     grado_instruccion = models.CharField(
         'Grado de instrucción', max_length=1, choices=OPCIONES_INSTRUCCION)
 
+    # Imagen
+    imagen = models.ImageField(upload_to = 'imagenes/', default = 'imagenes/ninguna.png')
+
     def __unicode__(self):
         return unicode(self.primer_nombre) + ' ' + unicode(self.apellido)
 
