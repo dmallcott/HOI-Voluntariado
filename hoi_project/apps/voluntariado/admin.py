@@ -8,6 +8,7 @@ from apps.voluntariado.models import (
     Institucion,
     Voluntario,
     Proyecto,
+    CategoriasProyecto,
     Servicio
 )
 from apps.voluntariado.forms import MonthlyForm, AnualForm
@@ -358,4 +359,5 @@ class ServicioAdmin(admin.ModelAdmin):
 admin.site.register(Institucion, InstitucionAdmin)
 admin.site.register(Voluntario, VoluntarioAdmin)
 admin.site.register(Proyecto, ProyectoAdmin)
+admin.site.register(CategoriasProyecto)
 admin.site.register(Servicio, ServicioAdmin)

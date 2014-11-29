@@ -4,9 +4,14 @@ from apps.registros.models import Proyectos, Servicios
 
 
 class Institucion(models.Model):
-    nombre = models.CharField('Nombre', max_length=30, blank=True)
-    # Aparte del nombre puede ir cualquier informacion que se quiera usar en
-    # informes
+    nombre = models.CharField('Nombre', max_length=30)
+    nucleo = models.CharField('Núcleo', max_length=30, blank=True)
+    correo_electronico = models.CharField('Correo', max_length=30, blank=True)
+    direccion = models.CharField('Dirección', max_length=100, blank=True)
+    telefonos = models.CommaSeparatedIntegerField('Teléfonos', max_length=200,
+                                                  blank=True)
+
+    coordinador = models.CharField('Coordinador', max_length=50, blank=True)
 
     class Meta:
         verbose_name_plural = "Instituciones"
@@ -47,6 +52,10 @@ class Institucion(models.Model):
 
 
 class Voluntario(models.Model):
+
+    class Meta:
+        verbose_name = "Pasante"
+        verbose_name_plural = "Pasantes"
 
     OPCIONES_GENERO = (
         ('M', 'Masculino'),
@@ -132,6 +141,17 @@ class Voluntario(models.Model):
         return (resultado, horas_ano)
 
 
+class CategoriasProyecto(models.Model):
+
+    class Meta:
+        verbose_name = "Categoria"
+
+    nombre = models.CharField('Nombre', max_length=50)
+
+    def __unicode__(self):
+        return unicode(self.nombre)
+
+
 class Proyecto(models.Model):
 
     OPCIONES_ESTATUS = (
@@ -140,10 +160,13 @@ class Proyecto(models.Model):
     )
 
     titulo = models.CharField('Titulo', max_length=30)
+    descripcion = models.CharField('Descripción', max_length=30, blank=True)
+    tutor = models.CharField('Tutor', max_length=30, blank=True)
     especialidad = models.CharField('Especialidad', max_length=30, blank=True)
     dependencia = models.CharField('Dependencia', max_length=30, blank=True)
     estatus = models.CharField('Estatus', max_length=1,
                                choices=OPCIONES_ESTATUS)
+    categorias = models.ForeignKey(CategoriasProyecto, null=True, blank=True)
 
     def __unicode__(self):
         return unicode(self.titulo)
