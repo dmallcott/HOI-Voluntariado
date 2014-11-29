@@ -8,12 +8,12 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Organizacion'
-        db.create_table(u'voluntariado_organizacion', (
+        # Adding model 'Institucion'
+        db.create_table(u'voluntariado_institucion', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('nombre', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
         ))
-        db.send_create_signal(u'voluntariado', ['Organizacion'])
+        db.send_create_signal(u'voluntariado', ['Institucion'])
 
         # Adding model 'Voluntario'
         db.create_table(u'voluntariado_voluntario', (
@@ -29,8 +29,9 @@ class Migration(SchemaMigration):
             ('telefono_casa', self.gf('django.db.models.fields.PositiveIntegerField')(max_length=20)),
             ('telefono_celular', self.gf('django.db.models.fields.PositiveIntegerField')(max_length=20)),
             ('correo_electronico', self.gf('django.db.models.fields.EmailField')(max_length=75)),
-            ('institucion', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['voluntariado.Organizacion'], blank=True)),
+            ('institucion', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['voluntariado.Institucion'], blank=True)),
             ('grado_instruccion', self.gf('django.db.models.fields.CharField')(max_length=1)),
+            ('imagen', self.gf('django.db.models.fields.files.ImageField')(default='imagenes/ninguna.png', max_length=100)),
         ))
         db.send_create_signal(u'voluntariado', ['Voluntario'])
 
@@ -54,8 +55,8 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        # Deleting model 'Organizacion'
-        db.delete_table(u'voluntariado_organizacion')
+        # Deleting model 'Institucion'
+        db.delete_table(u'voluntariado_institucion')
 
         # Deleting model 'Voluntario'
         db.delete_table(u'voluntariado_voluntario')
@@ -68,8 +69,8 @@ class Migration(SchemaMigration):
 
 
     models = {
-        u'voluntariado.organizacion': {
-            'Meta': {'object_name': 'Organizacion'},
+        u'voluntariado.institucion': {
+            'Meta': {'object_name': 'Institucion'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nombre': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'})
         },
@@ -97,7 +98,8 @@ class Migration(SchemaMigration):
             'fecha_nacimiento': ('django.db.models.fields.DateField', [], {'blank': 'True'}),
             'genero': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             'grado_instruccion': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
-            'institucion': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['voluntariado.Organizacion']", 'blank': 'True'}),
+            'imagen': ('django.db.models.fields.files.ImageField', [], {'default': "'imagenes/ninguna.png'", 'max_length': '100'}),
+            'institucion': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['voluntariado.Institucion']", 'blank': 'True'}),
             'lugar_nacimiento': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'ocupacion': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'primer_nombre': ('django.db.models.fields.CharField', [], {'max_length': '30'}),

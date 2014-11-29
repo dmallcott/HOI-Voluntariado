@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from datetime import date
 from apps.voluntariado.views import write_pdf
 from apps.voluntariado.models import (
-    Organizacion,
+    Institucion,
     Voluntario,
     Proyecto,
     Servicio
@@ -22,7 +22,7 @@ class InstitucionFilter(SimpleListFilter):
     parameter_name = 'institucion'
 
     def lookups(self, request, model_admin):
-        queryset = Organizacion.objects.all()
+        queryset = Institucion.objects.all()
         return queryset.values_list('id', 'nombre')
 
     def queryset(self, request, queryset):
@@ -32,10 +32,10 @@ class InstitucionFilter(SimpleListFilter):
 # Admin Models
 
 
-class OrganizacionAdmin(admin.ModelAdmin):
+class InstitucionAdmin(admin.ModelAdmin):
     search_fields = ['nombre']
     actions = ['generar_reporte_mes', 'generar_reporte_ano',
-                export_as_csv_action("Exportar como CSV", fields=['nombre'])]
+               export_as_csv_action("Exportar como CSV", fields=['nombre'])]
 
     def generar_reporte_mes(modeladmin, request, queryset):
         form = None
@@ -44,29 +44,29 @@ class OrganizacionAdmin(admin.ModelAdmin):
 
             form = MonthlyForm(request.POST)
             if form.is_valid():
-                lista_organizaciones = []
-                for organizacion in queryset:
-                    lista_organizaciones.append(
+                lista_instituciones = []
+                for institucion in queryset:
+                    lista_instituciones.append(
                         (
-                            organizacion.nombre,
-                            organizacion.horas_mes(
+                            institucion.nombre,
+                            institucion.horas_mes(
                                 form.cleaned_data['mes'],
                                 form.cleaned_data['ano'])
                         )
                     )
 
-                return write_pdf('pdf/organizaciones/reporte_mensual.html', {
+                return write_pdf('pdf/instituciones/reporte_mensual.html', {
                                  'pagesize': 'A4',
-                                 'lista_organizaciones': lista_organizaciones})
+                                 'lista_instituciones': lista_instituciones})
 
         if not form:
             form = MonthlyForm(
                 initial={'_selected_action':
                          request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
 
-        return render(request, 'admin/organizacion_mes.html',
+        return render(request, 'admin/institucion_mes.html',
                       {'items': queryset, 'form': form,
-                       'title': u'Reporte mensual - Organizacion'})
+                       'title': u'Reporte mensual - institucion'})
 
     generar_reporte_mes.short_description = u"Generar reporte mensual"
 
@@ -77,28 +77,28 @@ class OrganizacionAdmin(admin.ModelAdmin):
 
             form = AnualForm(request.POST)
             if form.is_valid():
-                lista_organizaciones = []
-                for organizacion in queryset:
-                    lista_organizaciones.append(
+                lista_instituciones = []
+                for institucion in queryset:
+                    lista_instituciones.append(
                         (
-                            organizacion.nombre,
-                            organizacion.horas_ano(
+                            institucion.nombre,
+                            institucion.horas_ano(
                                 form.cleaned_data['ano'])
                         )
                     )
 
-                return write_pdf('pdf/organizaciones/reporte_anual.html', {
+                return write_pdf('pdf/instituciones/reporte_anual.html', {
                                  'pagesize': 'A4',
-                                 'lista_organizaciones': lista_organizaciones})
+                                 'lista_instituciones': lista_instituciones})
 
         if not form:
             form = AnualForm(
                 initial={'_selected_action':
                          request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
 
-        return render(request, 'admin/organizacion_ano.html',
+        return render(request, 'admin/institucion_ano.html',
                       {'items': queryset, 'form': form,
-                       'title': u'Reporte anual - Organizacion'})
+                       'title': u'Reporte anual - institucion'})
 
     generar_reporte_ano.short_description = u"Generar reporte anual"
 
@@ -112,12 +112,16 @@ class VoluntarioAdmin(admin.ModelAdmin):
                    'estado_civil', 'ocupacion',
                    InstitucionFilter, 'grado_instruccion']
     actions = ['generar_reporte_mes', 'generar_reporte_ano',
-                export_as_csv_action("Exportar como CSV", 
-                    fields=['CI','primer_nombre', 'apellido', 
-                    'lugar_nacimiento', 'genero', 'ocupacion', 
-                    'estado_civil', 'direccion', 'telefono_casa', 'telefono_celular',
-                    'correo_electronico','institucion', 'grado_instruccion']
-                )
+               export_as_csv_action("Exportar como CSV",
+                                    fields=['CI', 'primer_nombre', 'apellido',
+                                            'lugar_nacimiento', 'genero',
+                                            'ocupacion', 'estado_civil',
+                                            'direccion', 'telefono_casa',
+                                            'telefono_celular',
+                                            'correo_electronico',
+                                            'institucion',
+                                            'grado_instruccion']
+                                    )
                ]
 
     def get_edad(self, obj):
@@ -156,7 +160,7 @@ class VoluntarioAdmin(admin.ModelAdmin):
                 initial={'_selected_action':
                          request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
 
-        return render(request, 'admin/organizacion_mes.html',
+        return render(request, 'admin/institucion_mes.html',
                       {'items': queryset, 'form': form,
                        'title': u'Reporte mensual - Voluntario'})
 
@@ -189,7 +193,7 @@ class VoluntarioAdmin(admin.ModelAdmin):
                 initial={'_selected_action':
                          request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
 
-        return render(request, 'admin/organizacion_ano.html',
+        return render(request, 'admin/institucion_ano.html',
                       {'items': queryset, 'form': form,
                        'title': u'Reporte anual - Voluntario'})
 
@@ -203,10 +207,10 @@ class ProyectoAdmin(admin.ModelAdmin):
     list_filter = ['titulo',
                    'especialidad', 'dependencia', 'estatus']
     actions = ['generar_reporte_mes', 'generar_reporte_ano',
-              export_as_csv_action("Exportar como CSV", 
-                    fields=['titulo','especialidad', 'dependencia', 
-                    'estatus']
-                )
+               export_as_csv_action("Exportar como CSV",
+                                    fields=['titulo', 'especialidad',
+                                            'dependencia', 'estatus']
+                                    )
                ]
 
     def generar_reporte_mes(modeladmin, request, queryset):
@@ -236,7 +240,7 @@ class ProyectoAdmin(admin.ModelAdmin):
                 initial={'_selected_action':
                          request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
 
-        return render(request, 'admin/organizacion_mes.html',
+        return render(request, 'admin/institucion_mes.html',
                       {'items': queryset, 'form': form,
                        'title': u'Reporte mensual - Proyecto'})
 
@@ -268,7 +272,7 @@ class ProyectoAdmin(admin.ModelAdmin):
                 initial={'_selected_action':
                          request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
 
-        return render(request, 'admin/organizacion_ano.html',
+        return render(request, 'admin/institucion_ano.html',
                       {'items': queryset, 'form': form,
                        'title': u'Reporte anual - Proyecto'})
 
@@ -280,9 +284,9 @@ class ServicioAdmin(admin.ModelAdmin):
     list_display = ['servicio', 'turno']
     list_filter = ['servicio', 'turno']
     actions = ['generar_reporte_mes', 'generar_reporte_ano',
-                export_as_csv_action("Exportar como CSV", 
-                    fields=['servicio', 'turno']
-                )
+               export_as_csv_action("Exportar como CSV",
+                                    fields=['servicio', 'turno']
+                                    )
                ]
 
     def generar_reporte_mes(modeladmin, request, queryset):
@@ -312,7 +316,7 @@ class ServicioAdmin(admin.ModelAdmin):
                 initial={'_selected_action':
                          request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
 
-        return render(request, 'admin/organizacion_mes.html',
+        return render(request, 'admin/institucion_mes.html',
                       {'items': queryset, 'form': form,
                        'title': u'Reporte mensual - Servicio'})
 
@@ -344,14 +348,14 @@ class ServicioAdmin(admin.ModelAdmin):
                 initial={'_selected_action':
                          request.POST.getlist(admin.ACTION_CHECKBOX_NAME)})
 
-        return render(request, 'admin/organizacion_ano.html',
+        return render(request, 'admin/institucion_ano.html',
                       {'items': queryset, 'form': form,
                        'title': u'Reporte anual - Servicio'})
 
     generar_reporte_ano.short_description = u"Generar reporte anual"
 
 # Registers
-admin.site.register(Organizacion, OrganizacionAdmin)
+admin.site.register(Institucion, InstitucionAdmin)
 admin.site.register(Voluntario, VoluntarioAdmin)
 admin.site.register(Proyecto, ProyectoAdmin)
 admin.site.register(Servicio, ServicioAdmin)

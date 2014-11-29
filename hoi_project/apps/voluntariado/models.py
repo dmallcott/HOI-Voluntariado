@@ -3,13 +3,13 @@ from django.db import models
 from apps.registros.models import Proyectos, Servicios
 
 
-class Organizacion(models.Model):
+class Institucion(models.Model):
     nombre = models.CharField('Nombre', max_length=30, blank=True)
     # Aparte del nombre puede ir cualquier informacion que se quiera usar en
     # informes
 
     class Meta:
-        verbose_name_plural = "Organizaciones"
+        verbose_name_plural = "Instituciones"
 
     def __unicode__(self):
         return unicode(self.nombre)
@@ -88,13 +88,14 @@ class Voluntario(models.Model):
     correo_electronico = models.EmailField('Correo electrónico')
 
     # Informacion de la institucion
-    institucion = models.ForeignKey(Organizacion, verbose_name='Institución',
+    institucion = models.ForeignKey(Institucion, verbose_name='Institución',
                                     blank=True)
     grado_instruccion = models.CharField(
         'Grado de instrucción', max_length=1, choices=OPCIONES_INSTRUCCION)
 
     # Imagen
-    imagen = models.ImageField(upload_to = 'imagenes/', default = 'imagenes/ninguna.png')
+    imagen = models.ImageField(upload_to='imagenes/',
+                               default='imagenes/ninguna.png')
 
     def __unicode__(self):
         return unicode(self.primer_nombre) + ' ' + unicode(self.apellido)
