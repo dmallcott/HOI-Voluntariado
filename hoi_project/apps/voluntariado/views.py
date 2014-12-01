@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django import http
 from django.template.loader import get_template
 from django.template import Context
@@ -18,10 +17,3 @@ def write_pdf(template_src, context_dict):
         return http.HttpResponse(result.getvalue(),
                                  content_type='application/pdf')
     return http.HttpResponse('Gremlin\'s ate your pdf! % s' % cgi.escape(html))
-
-
-def article(request):
-    raise Exception(request)
-    return write_pdf('pdf/pdf.html', {
-        'pagesize': 'A4',
-        'article': 'this is the article'})

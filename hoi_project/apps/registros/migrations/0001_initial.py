@@ -14,7 +14,8 @@ class Migration(SchemaMigration):
             ('proyecto', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['voluntariado.Proyecto'])),
             ('voluntario', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['voluntariado.Voluntario'])),
             ('horas', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
-            ('fecha', self.gf('django.db.models.fields.DateField')(auto_now=True, blank=True)),
+            ('fecha', self.gf('django.db.models.fields.DateField')()),
+            ('actividad', self.gf('django.db.models.fields.CharField')(max_length=200)),
         ))
         db.send_create_signal(u'registros', ['Proyectos'])
 
@@ -24,6 +25,8 @@ class Migration(SchemaMigration):
             ('servicio', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['voluntariado.Servicio'])),
             ('voluntario', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['voluntariado.Voluntario'])),
             ('horas', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
+            ('fecha', self.gf('django.db.models.fields.DateField')()),
+            ('actividad', self.gf('django.db.models.fields.CharField')(max_length=200)),
         ))
         db.send_create_signal(u'registros', ['Servicios'])
 
@@ -39,7 +42,8 @@ class Migration(SchemaMigration):
     models = {
         u'registros.proyectos': {
             'Meta': {'object_name': 'Proyectos'},
-            'fecha': ('django.db.models.fields.DateField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'actividad': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'fecha': ('django.db.models.fields.DateField', [], {}),
             'horas': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'proyecto': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['voluntariado.Proyecto']"}),
@@ -47,23 +51,38 @@ class Migration(SchemaMigration):
         },
         u'registros.servicios': {
             'Meta': {'object_name': 'Servicios'},
+            'actividad': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'fecha': ('django.db.models.fields.DateField', [], {}),
             'horas': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'servicio': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['voluntariado.Servicio']"}),
             'voluntario': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['voluntariado.Voluntario']"})
         },
-        u'voluntariado.organizacion': {
-            'Meta': {'object_name': 'Organizacion'},
+        u'voluntariado.categoriasproyecto': {
+            'Meta': {'object_name': 'CategoriasProyecto'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'nombre': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'})
+            'nombre': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
+        u'voluntariado.institucion': {
+            'Meta': {'object_name': 'Institucion'},
+            'coordinador': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'}),
+            'correo_electronico': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'direccion': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'nombre': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'nucleo': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'telefonos': ('django.db.models.fields.CommaSeparatedIntegerField', [], {'max_length': '200', 'blank': 'True'})
         },
         u'voluntariado.proyecto': {
             'Meta': {'object_name': 'Proyecto'},
+            'categorias': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['voluntariado.CategoriasProyecto']", 'null': 'True', 'blank': 'True'}),
             'dependencia': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'descripcion': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'especialidad': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'estatus': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'titulo': ('django.db.models.fields.CharField', [], {'max_length': '30'})
+            'titulo': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'tutor': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'})
         },
         u'voluntariado.servicio': {
             'Meta': {'object_name': 'Servicio'},
@@ -81,7 +100,8 @@ class Migration(SchemaMigration):
             'fecha_nacimiento': ('django.db.models.fields.DateField', [], {'blank': 'True'}),
             'genero': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             'grado_instruccion': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
-            'institucion': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['voluntariado.Organizacion']", 'blank': 'True'}),
+            'imagen': ('django.db.models.fields.files.ImageField', [], {'default': "'imagenes/ninguna.png'", 'max_length': '100'}),
+            'institucion': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['voluntariado.Institucion']", 'blank': 'True'}),
             'lugar_nacimiento': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'ocupacion': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'primer_nombre': ('django.db.models.fields.CharField', [], {'max_length': '30'}),

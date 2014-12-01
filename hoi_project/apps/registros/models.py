@@ -7,6 +7,7 @@ class Proyectos(models.Model):
     voluntario = models.ForeignKey('voluntariado.Voluntario')
     horas = models.PositiveIntegerField(default=0)
     fecha = models.DateField(auto_now=False)
+    actividad = models.CharField('Actividad', max_length=200)
 
     class Meta:
         verbose_name = "Registro de proyecto"
@@ -21,6 +22,7 @@ class Servicios(models.Model):
     voluntario = models.ForeignKey('voluntariado.Voluntario')
     horas = models.PositiveIntegerField(default=0)
     fecha = models.DateField(auto_now=False)
+    actividad = models.CharField('Actividad', max_length=200)
 
     class Meta:
         verbose_name = "Registro de servicio"

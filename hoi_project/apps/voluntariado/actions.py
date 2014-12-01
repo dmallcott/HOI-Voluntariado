@@ -1,6 +1,7 @@
 import csv
 from django.http import HttpResponse
 
+
 def export_as_csv_action(description="Export selected objects as CSV file",
                          fields=None, exclude=None, header=True):
     """
@@ -25,11 +26,34 @@ def export_as_csv_action(description="Export selected objects as CSV file",
         response = HttpResponse(mimetype='text/csv')
         response['Content-Disposition'] = 'attachment; filename=%s.csv' % unicode(opts).replace('.', '_')
 
-        writer = csv.DictWriter(response,fields)
+        writer = csv.DictWriter(response, fields)
         writer.writeheader()
 
         for obj in queryset:
-            writer.writerow(dict(zip(fields,[unicode(getattr(obj, field)).encode("utf-8","replace") for field in fields])))
+            writer.writerow(dict(zip(fields, [unicode(getattr(obj, field)).encode("utf-8", "replace") for field in fields])))
         return response
     export_as_csv.short_description = description
     return export_as_csv
+
+
+def int_to_date(date):
+    OPCIONES_MES = (
+        ("01", "Enero"),
+        ("02", "Febrero"),
+        ("03", "Marzo"),
+        ("04", "Abril"),
+        ("05", "Mayo"),
+        ("06", "Junio"),
+        ("07", "Julio"),
+        ("08", "Agosto"),
+        ("09", "Septiembre"),
+        ("10", "Octubre"),
+        ("11", "Noviembre"),
+        ("12", "Diciembre")
+    )
+
+    for temp in OPCIONES_MES:
+        if temp[0] == date:
+            return temp[1]
+
+    return None

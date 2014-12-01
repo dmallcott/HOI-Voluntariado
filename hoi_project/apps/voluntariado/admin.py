@@ -12,7 +12,7 @@ from apps.voluntariado.models import (
     Servicio
 )
 from apps.voluntariado.forms import MonthlyForm, AnualForm
-from apps.voluntariado.actions import export_as_csv_action
+from apps.voluntariado.actions import export_as_csv_action, int_to_date
 from django.shortcuts import render
 
 # Filters
@@ -56,8 +56,11 @@ class InstitucionAdmin(admin.ModelAdmin):
                         )
                     )
 
+                date = int_to_date(form.cleaned_data['mes']) + " " + str(form.cleaned_data['ano'])
+
                 return write_pdf('pdf/instituciones/reporte_mensual.html', {
                                  'pagesize': 'A4',
+                                 'date': date,
                                  'lista_instituciones': lista_instituciones})
 
         if not form:
@@ -67,7 +70,7 @@ class InstitucionAdmin(admin.ModelAdmin):
 
         return render(request, 'admin/institucion_mes.html',
                       {'items': queryset, 'form': form,
-                       'title': u'Reporte mensual - institucion'})
+                       'title': u'Reporte mensual - Institucion'})
 
     generar_reporte_mes.short_description = u"Generar reporte mensual"
 
