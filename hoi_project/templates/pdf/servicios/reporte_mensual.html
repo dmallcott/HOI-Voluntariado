@@ -13,28 +13,61 @@
                 height: 1cm;
         }
     }
+
+
+    h1 {
+        text-align: center;
+    }
+
+    th {
+        font-size: 1.2em;
+    }
+
+    th, td {
+        text-align: left;
+        vertical-align: middle;
+        margin: 0;
+    }
 </style>
 </head>
-<body>
-<div>
-    {% for servicio in lista_servicios %}
-        <h2>{{ servicio.0 }}</h2>
-        <h3>Registro mensual</h3>
-        {% for entrada in servicio.1.0 %}
-        <p>
-            {{ entrada.fecha }}
-            ,
-            {{ entrada.horas }}
-            ,
-            {{ entrada.voluntario.primer_nombre }} {{ entrada.voluntario.apellido }} 
-            ,
-            {{ entrada.voluntario.institucion.nombre }}
-            
-        </p>
+<header>
+    <div>
+        <div id="logo">
+            <img src="./static/logo.jpg" height="120px">
+        </div>
+    </div>
+    </header>
+    <body>
+        <h1>Reporte mensual {{ date }}</h1>
+        {% for servicio in lista_servicios %}
+            <h2>{{ servicio.0 }}</h2>
+                <table>
+                    <tr>
+                        <th>Pasante</th>
+                        <th>Institución</th>
+                        <th>Horas</th>
+                        <th>Fecha</th>
+                        <th>Actividad</th>
+                    </tr>
+                    {% for entrada in servicio.1.0 %}
+                        <tr>
+                            <td>{{ entrada.voluntario.primer_nombre }} {{ entrada.voluntario.apellido }}</td>
+                            <td>{{ entrada.voluntario.institucion.nombre }}</td>
+                            <td>{{ entrada.horas }}</td>
+                            <td>{{ entrada.fecha }}</td>
+                            <td>{{ entrada.actividad }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td><b>TOTAL</b></td>
+                        <td></td>
+                        <td>{{ servicio.1.1 }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            <hr>
         {% endfor %}
-        <b>Total:</b> {{ servicio.1.1 }}
-    {% endfor %}
-</div>
 <div id="footerblock">
     <pdf:pagenumber>
 </div>

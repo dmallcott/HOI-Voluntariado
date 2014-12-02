@@ -56,7 +56,8 @@ class InstitucionAdmin(admin.ModelAdmin):
                         )
                     )
 
-                date = int_to_date(form.cleaned_data['mes']) + " " + str(form.cleaned_data['ano'])
+                date = int_to_date(form.cleaned_data['mes']) + " " + \
+                    str(form.cleaned_data['ano'])
 
                 return write_pdf('pdf/instituciones/reporte_mensual.html', {
                                  'pagesize': 'A4',
@@ -91,8 +92,11 @@ class InstitucionAdmin(admin.ModelAdmin):
                         )
                     )
 
+                date = str(form.cleaned_data['ano'])
+
                 return write_pdf('pdf/instituciones/reporte_anual.html', {
                                  'pagesize': 'A4',
+                                 'date': date,
                                  'lista_instituciones': lista_instituciones})
 
         if not form:
@@ -155,8 +159,12 @@ class VoluntarioAdmin(admin.ModelAdmin):
                         )
                     )
 
+                date = int_to_date(form.cleaned_data['mes']) + " " + \
+                    str(form.cleaned_data['ano'])
+
                 return write_pdf('pdf/voluntarios/reporte_mensual.html', {
                                  'pagesize': 'A4',
+                                 'date': date,
                                  'lista_voluntarios': lista_voluntarios})
 
         if not form:
@@ -188,8 +196,11 @@ class VoluntarioAdmin(admin.ModelAdmin):
                         )
                     )
 
+                date = str(form.cleaned_data['ano'])
+
                 return write_pdf('pdf/voluntarios/reporte_anual.html', {
                                  'pagesize': 'A4',
+                                 'date': date,
                                  'lista_voluntarios': lista_voluntarios})
 
         if not form:
@@ -235,8 +246,12 @@ class ProyectoAdmin(admin.ModelAdmin):
                         )
                     )
 
+                date = int_to_date(form.cleaned_data['mes']) + " " + \
+                    str(form.cleaned_data['ano'])
+
                 return write_pdf('pdf/proyectos/reporte_mensual.html', {
                                  'pagesize': 'A4',
+                                 'date': date,
                                  'lista_proyectos': lista_proyectos})
 
         if not form:
@@ -267,8 +282,11 @@ class ProyectoAdmin(admin.ModelAdmin):
                         )
                     )
 
+                date = str(form.cleaned_data['ano'])
+
                 return write_pdf('pdf/proyectos/reporte_anual.html', {
                                  'pagesize': 'A4',
+                                 'date': date,
                                  'lista_proyectos': lista_proyectos})
 
         if not form:
@@ -311,8 +329,12 @@ class ServicioAdmin(admin.ModelAdmin):
                         )
                     )
 
+                date = int_to_date(form.cleaned_data['mes']) + " " + \
+                    str(form.cleaned_data['ano'])
+
                 return write_pdf('pdf/servicios/reporte_mensual.html', {
                                  'pagesize': 'A4',
+                                 'date': date,
                                  'lista_servicios': lista_servicios})
 
         if not form:
@@ -343,8 +365,11 @@ class ServicioAdmin(admin.ModelAdmin):
                         )
                     )
 
+                date = str(form.cleaned_data['ano'])
+
                 return write_pdf('pdf/servicios/reporte_anual.html', {
                                  'pagesize': 'A4',
+                                 'date': date,
                                  'lista_servicios': lista_servicios})
 
         if not form:
