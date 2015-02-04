@@ -57,7 +57,7 @@ var django = {
             buttonText: '',
             dateFormat: grappelli.getFormat('date'),
             showAnim: '',
-            yearRange: '1920:2014',
+            yearRange: '1920:2030',
             defaultDate: '01/01/1920',
             // HACK: sets the current instance to a global var.
             // needed to actually select today if the today-button is clicked.

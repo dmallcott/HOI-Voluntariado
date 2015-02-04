@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from datetime import date
 
 
 class Proyectos(models.Model):
     proyecto = models.ForeignKey('voluntariado.Proyecto')
     voluntario = models.ForeignKey('voluntariado.Voluntario')
     horas = models.PositiveIntegerField(default=0)
-    fecha = models.DateField(auto_now=False)
+    fecha = models.DateField(default=date.today)
     actividad = models.CharField('Actividad', max_length=200)
 
     class Meta:
@@ -21,7 +22,7 @@ class Servicios(models.Model):
     servicio = models.ForeignKey('voluntariado.Servicio')
     voluntario = models.ForeignKey('voluntariado.Voluntario')
     horas = models.PositiveIntegerField(default=0)
-    fecha = models.DateField(auto_now=False)
+    fecha = models.DateField(default=date.today)
     actividad = models.CharField('Actividad', max_length=200)
 
     class Meta:

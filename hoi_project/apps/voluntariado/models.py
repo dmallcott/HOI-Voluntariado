@@ -8,8 +8,7 @@ class Institucion(models.Model):
     nucleo = models.CharField('Núcleo', max_length=30, blank=True)
     correo_electronico = models.CharField('Correo', max_length=30, blank=True)
     direccion = models.CharField('Dirección', max_length=100, blank=True)
-    telefonos = models.CommaSeparatedIntegerField('Teléfonos', max_length=200,
-                                                  blank=True)
+    telefonos = models.CharField('Teléfonos', max_length=200, blank=True)
 
     coordinador = models.CharField('Coordinador', max_length=50, blank=True)
 
@@ -77,28 +76,26 @@ class Voluntario(models.Model):
 
     # Informacion personal del voluntario
     CI = models.CharField('Cédula de identidad',
-                          max_length=10, primary_key=True, blank=True)
+                          max_length=10, primary_key=True)
     primer_nombre = models.CharField('Nombre', max_length=30)
-    apellido = models.CharField('Apellido', max_length=30, blank=True)
+    apellido = models.CharField('Apellido', max_length=30)
     lugar_nacimiento = models.CharField('Lugar de nacimiento',
                                         max_length=30, blank=True)
     fecha_nacimiento = models.DateField('Fecha de nacimiento', blank=True)
     genero = models.CharField('Genero', max_length=1, choices=OPCIONES_GENERO)
-    ocupacion = models.CharField('Ocupación', max_length=30, blank=True)
+    ocupacion = models.CharField('Ocupación', max_length=30)
     estado_civil = models.CharField('Estado civil', max_length=1,
                                     choices=OPCIONES_ESTADO_CIVIL)
     # Informacion de contacto
     direccion = models.CharField(
-        'Dirección de habitación', max_length=120, blank=True)
-    telefono_casa = models.PositiveIntegerField(
-        'Teléfono de habitación', max_length=20)
-    telefono_celular = models.PositiveIntegerField(
-        'Teléfono celular', max_length=20)
+        'Dirección de habitación', max_length=200, blank=True)
+    telefono_casa = models.CharField(
+        'Teléfono de habitación', max_length=30, blank=True)
+    telefono_celular = models.CharField('Teléfono celular', max_length=30)
     correo_electronico = models.EmailField('Correo electrónico')
 
     # Informacion de la institucion
-    institucion = models.ForeignKey(Institucion, verbose_name='Institución',
-                                    blank=True)
+    institucion = models.ForeignKey(Institucion, verbose_name='Institución')
     grado_instruccion = models.CharField(
         'Grado de instrucción', max_length=1, choices=OPCIONES_INSTRUCCION)
 
@@ -160,7 +157,7 @@ class Proyecto(models.Model):
     )
 
     titulo = models.CharField('Titulo', max_length=30)
-    descripcion = models.CharField('Descripción', max_length=30, blank=True)
+    descripcion = models.CharField('Descripción', max_length=200, blank=True)
     tutor = models.CharField('Tutor', max_length=30, blank=True)
     especialidad = models.CharField('Especialidad', max_length=30, blank=True)
     dependencia = models.CharField('Dependencia', max_length=30, blank=True)
