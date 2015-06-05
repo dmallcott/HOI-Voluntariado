@@ -89,7 +89,7 @@ MEDIA_URL = '/media/'
 
 # STATIC FILE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = normpath(join(SITE_ROOT, 'statis'))
+STATIC_ROOT = normpath(join(SITE_ROOT, 'static'))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = '/assets/'
@@ -154,7 +154,9 @@ TEMPLATE_LOADERS = (
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
 TEMPLATE_DIRS = (
+    #normpath(join(SITE_ROOT, 'apps/grappelli/templates')),
     normpath(join(SITE_ROOT, 'templates')),
+
 )
 # END TEMPLATE CONFIGURATION
 
@@ -185,11 +187,13 @@ DJANGO_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+    #'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
     'grappelli',
+    'easy_pdf',
+    'django_babel',
 
     # Useful template tags:
     # 'django.contrib.humanize',
@@ -202,9 +206,9 @@ DJANGO_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'apps.voluntarios',
-    'apps.proyectos',
-    'apps.servicios',
+    'apps.voluntariado',
+    'apps.registros',
+
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

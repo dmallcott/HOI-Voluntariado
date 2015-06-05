@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic import RedirectView
 
@@ -11,6 +10,9 @@ urlpatterns = patterns('',
                        url(r'^$', RedirectView.as_view(url='/admin/')),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^grappelli/', include('grappelli.urls')),
+                       url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+                           'document_root': settings.MEDIA_ROOT,
+                           })
                        )
 
 # Uncomment the next line to serve media files in dev.
